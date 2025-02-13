@@ -123,57 +123,15 @@ app.get("/", (req, res) => {
   res.send("Server is running! 🚀");
 });
 
-// Express server listen
-app.listen(PORT, () => {
-  console.log(`Keep-Alive server is running on port ${PORT}`);
+// Express server listen (Vercel or Lambda compatibility)
+app.get("/api", (req, res) => {
+  res.send("This is the API endpoint! 🚀");
 });
 
-// Time formatting functions
-function getCurrentDate() {
-  const options = {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  };
-  const currentDate = new Date().toLocaleString("en-US", options);
-
-  const [time, date] = currentDate.split(", ");
-  const formattedDate = `${time} - ${date}`;
-
-  return formattedDate;
-}
-
-function getFutureTime() {
-  const currentDate = new Date();
-  currentDate.setMinutes(currentDate.getMinutes() + 39);
-
-  const options = {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  };
-
-  const futureDate = currentDate.toLocaleString("en-US", options);
-  const [time, date] = futureDate.split(", ");
-  const formattedDate = `${time} - ${date}`;
-  return formattedDate;
-}
-
-function getRandomQuote() {
-  const quotes = [
-    "স্বপ্ন দেখতে হবে, তবে সেটা বাস্তবে রূপ দেওয়ার জন্য কঠোর পরিশ্রম করতে হবে। 🌟",
-    // Add more quotes here
-  ];
-
-  const randomIndex = Math.floor(Math.random() * quotes.length);
-  return quotes[randomIndex];
-}
+// Vercel/AWS Lambda compatibility
+export default (req, res) => {
+  app(req, res); // Express app as a handler
+};
 
 // import pkg, { ClientVoiceManager, heading } from "discord.js";
 // import fetch from "node-fetch";
